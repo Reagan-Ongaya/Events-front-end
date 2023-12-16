@@ -1,9 +1,9 @@
 import {Routes, Route} from 'react-router-dom'
-import { Container } from '@chakra-ui/react'
+import {Box } from '@chakra-ui/react'
 
 import { Navbar} from './components/Navbar'
 import { Home } from './pages/Home'
-import { AddEvent } from './pages/AddEvent'
+import { Destination } from './pages/Destination'
 
 function App() {
   return (
@@ -12,13 +12,13 @@ function App() {
       {/*Nav Bar*/}
       <Navbar />
 
-      <Container>
+      <Box bg={'gray.200'} w='100%' style={{ height: '90vh', padding:8 }}>
         <Routes>
           <Route path='/' element={<Home /> }></Route>
 
-          <Route path='add-event' element={<AddEvent />} />
+          <Route path='add-event' element={<Destination />} />
         </Routes>
-      </Container>
+      </Box>
     </>
   )
 }

@@ -10,12 +10,12 @@ export const Navbar = () => {
                 <HStack spacing={8} h={20}>
                  <SpinnerIcon w={10} h={10} color='blue'/>
                     <HStack spacing={5}>
-                        <Link to={"/"} > Home</Link>
-                        <Link to={"/add-event"}>Add-event</Link>
+                        <Link to={"/"}> Home</Link>
+                        <Link to={"/add-event"}>Destination</Link>
                     </HStack>
                 </HStack>
                 <HStack h={20}>
-                   <PhoneIcon w={5} h={5} color="blue" /> 
+                   <PhoneIcon w={5} h={5} color="red" /> 
                 </HStack>
 
             </Flex>
