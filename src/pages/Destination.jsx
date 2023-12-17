@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Box, Flex, FormControl, FormLabel, HStack, Heading, Input, Stack } from "@chakra-ui/react";
 
 export const Destination =() => {
+    //initializing our data
     const initialData = {
-        destination :'',
+        name :'',
         location :'',
         price :'',
         start_date:'',
@@ -11,50 +12,130 @@ export const Destination =() => {
     }
 
     const [formData, setFormData] = useState(initialData);
-
+    const [isLoading, setIsLoading] = useState(false);
+    
+    //handling changes on the form
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         })
-    }
-    console.log(formData);
-    
-    return <Flex align={'center'} justify={'center'}>
+    };
+
+    const handleFormBook = (e) => {
+        e.preventDefaul()
+
+        setIsLoading(true);
+
+        fetch(`${BASE_URL}/events`,{
+            method :'POST',
+            hearder: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+             //assume operation was a success
+
+             //resetting form
+             setFormData(initialData);
+
+             //stoppimg the loading
+             setIsLoading(false);
+            })
+            //catching error
+            .catch((err) => {
+                setIsLoading(false);
+                console.log(err)  ;            
+            });
+
+    };
+
+    //creating the form
+    return ( 
+    <Flex align={'center'} justify={'center'}>
         <Stack>
-            <Heading fontSize={'-moz-initial'} fontFamily={'cursive'}>Destination</Heading>
+            <Heading fontSize={'50'} fontFamily={'fantasy'}>Destination</Heading>
 
-            <Box rounded={'lg'} bg={'blue'} p={8}>
+            <Box as="form" rounded={'lg'} bg={'purple'} p={5} onSubmit={handleFormBook}>
                 <Stack>
+                    <HStack>
                     <FormControl isRequired>
-                        <FormLabel htmlFor="destination">Name of destination</FormLabel>
-                        <Input name='Name' placeholder="Kenya" autoComplete="destination" value={formData['destination']} onChange={handleChange} />
+                        <FormLabel htmlFor="destination">Name</FormLabel>
                     </FormControl>
-
-                    <FormControl isRequired>
-                        <FormLabel  htmlFor="location">Location</FormLabel>
-                        <Input name='Name' placeholder="Nairobi" autoComplete="location" value={formData['location']} onChange={handleChange}/>
+                    <FormControl>
+                        <Input
+                            name='name' 
+                            placeholder="Kenya" 
+                            autoComplete="name" 
+                            value={formData['destination']} 
+                            onChange={handleChange} 
+                        />
                     </FormControl>
-
-                    <FormControl isRequired>
-                        <FormLabel>Price</FormLabel>
-                        <Input Amount='' placeholder="Amount ie. Ksh/$" value={formData['price']} onChange={handleChange}/>
-                    </FormControl>
+                    </HStack>
                     
                     <HStack>
-                      <FormControl isRequired>
+                    <FormControl isRequired>
+                        <FormLabel  htmlFor="location">Location</FormLabel>
+                    </FormControl> 
+                    <FormControl>  
+                        <Input 
+                            name='location' 
+                            placeholder="Nairobi" 
+                            autoComplete="location" 
+                            value={formData['location']} 
+                            onChange={handleChange}
+                        />
+                    </FormControl>
+                    </HStack>
+                    
+                    <HStack>
+                    <FormControl isRequired>
+                        <FormLabel>Price</FormLabel>
+                    </FormControl>
+                    <FormControl>
+                        <Input
+                            name='price'
+                            placeholder="Ksh/$" 
+                            value={formData['price']} 
+                            onChange={handleChange}
+                        />
+                    </FormControl>
+                    </HStack>
+                    
+                    <HStack>
+                     <FormControl isRequired>
                         <FormLabel>Start Date</FormLabel>
-                        <Input name='time' type="datetime-local" value={formData['start_date']} onChange={handleChange} />
+                        <Input 
+                            name='start_date' 
+                            type="datetime-local" 
+                            value={formData['start_date']} 
+                            onChange={handleChange} 
+                        />
                       </FormControl>
+                    
                     
                       <FormControl isRequired>
                         <FormLabel>End Date</FormLabel>
-                        <Input name='time' type="datetime-local" value={formData['end_date']} onChange={handleChange}/>
+                        <Input 
+                            name='end_date' 
+                            type="datetime-local" 
+                            value={formData['end_date']} 
+                            onChange={handleChange}
+                        />
+
                       </FormControl>
                     </HStack>
-
-                    <Stack padding={2} bg={"black"}>
-                        <button>Book Now</button>
+ 
+                    <Stack p={8}>
+                        <button
+                           isLoading={isLoading}
+                           loadingText='Booking, just a sec...'
+                           colorScheme='teal'
+                           variant='outline'
+                        > 
+                        Book now </button>
                     </Stack>
                 </Stack>
                
@@ -62,4 +143,5 @@ export const Destination =() => {
         </Stack>
 
     </Flex>
+    )
 };

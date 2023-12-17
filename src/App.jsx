@@ -12,7 +12,7 @@ function App() {
       {/*Nav Bar*/}
       <Navbar />
 
-      <Box bg={'gray.200'} w='100%' style={{ height: '90vh', padding:8 }}>
+      <Box bg={'blue'} w='100%' style={{ height: '90vh', padding:8 }}>
         <Routes>
           <Route path='/' element={<Home /> }></Route>
 
